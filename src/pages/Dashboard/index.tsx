@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import { FiChevronRight } from 'react-icons/fi';
 
 import api from '../../services/api';
@@ -19,7 +19,17 @@ interface Repo {
 const Dashboard: React.FC = () => {
   const [newRepo, setNewRepo] = useState('');
   const [inputError, setInputError] = useState('');
-  const [repos, setRepos] = useState<Repo[]>([]);
+  const [repos, setRepos] = useState<Repo[]>(() => {
+    const storagedRepos = localStorage.getItem('@github_explorer:repos');
+
+    if (!storagedRepos) return [];
+
+    return JSON.parse(storagedRepos);
+  });
+
+  useEffect(() => {
+    localStorage.setItem('@github_explorer:repos', JSON.stringify(repos));
+  }, [repos]);
 
   async function handleAddRepository(
     event: FormEvent<HTMLFormElement>,
