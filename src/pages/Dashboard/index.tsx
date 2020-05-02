@@ -1,4 +1,5 @@
 import React, { FormEvent, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { FiChevronRight } from 'react-icons/fi';
 
 import api from '../../services/api';
@@ -70,7 +71,7 @@ const Dashboard: React.FC = () => {
 
       <Repositories>
         {repos.map((repo) => (
-          <a key={repo.full_name} href="/">
+          <Link key={repo.full_name} to={`/repo/${repo.full_name}`}>
             <img alt={repo.owner.login} src={repo.owner.avatar_url} />
             <div>
               <strong>{repo.full_name}</strong>
@@ -78,7 +79,7 @@ const Dashboard: React.FC = () => {
             </div>
 
             <FiChevronRight size={20} />
-          </a>
+          </Link>
         ))}
       </Repositories>
     </>
